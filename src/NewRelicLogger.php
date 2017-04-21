@@ -61,6 +61,8 @@ final class NewRelicLogger extends AbstractLogger implements LoggerInterface
      */
     public function log($level, $message, array $context = [])//@codingStandardsIgnoreLine Interface does not define type-hints or return
     {
+        LoggerHelper::validateLevel($level);
+
         if (!in_array($level, $this->observedLevels)) {
             return;
         }
@@ -81,6 +83,6 @@ final class NewRelicLogger extends AbstractLogger implements LoggerInterface
             $this->newRelicAgent->addCustomParameter($key, $value);
         }
 
-        $this->newRelicAgent->noticeError($message, $exception);
+        $this->newRelicAgent->noticeError(LoggerHelper::interpolateMessage($message, $context), $exception);
     }
 }
