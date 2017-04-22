@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c3e48b32e62f62889d6bf5fee2166e7a",
+    "content-hash": "cbf042eab7a162ba35313225ee476983",
     "packages": [
         {
             "name": "chadicus/psr-log-helper",
-            "version": "v1.0.0",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/chadicus/psr-log-helper.git",
-                "reference": "c1871d563c1d0b3703cb0162e57bb307332c6be3"
+                "reference": "2e8a751be1d02771ae48dbf5fd6c39d7c82e0ae0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/chadicus/psr-log-helper/zipball/c1871d563c1d0b3703cb0162e57bb307332c6be3",
-                "reference": "c1871d563c1d0b3703cb0162e57bb307332c6be3",
+                "url": "https://api.github.com/repos/chadicus/psr-log-helper/zipball/2e8a751be1d02771ae48dbf5fd6c39d7c82e0ae0",
+                "reference": "2e8a751be1d02771ae48dbf5fd6c39d7c82e0ae0",
                 "shasum": ""
             },
             "require": {
@@ -47,7 +47,7 @@
                 }
             ],
             "description": "Utilities to assist with PSR-3 logger implementations",
-            "time": "2016-10-11T00:55:43+00:00"
+            "time": "2017-04-22T00:17:46+00:00"
         },
         {
             "name": "psr/log",
@@ -1307,16 +1307,16 @@
         },
         {
             "name": "sebastian/environment",
-            "version": "3.0.1",
+            "version": "3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "11957a4c94283e61e33aa9e74adf6ab457be8fa0"
+                "reference": "11e7710b7724d42c62249b0e9d3030240398949d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/11957a4c94283e61e33aa9e74adf6ab457be8fa0",
-                "reference": "11957a4c94283e61e33aa9e74adf6ab457be8fa0",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/11e7710b7724d42c62249b0e9d3030240398949d",
+                "reference": "11e7710b7724d42c62249b0e9d3030240398949d",
                 "shasum": ""
             },
             "require": {
@@ -1353,7 +1353,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2017-04-21T13:41:28+00:00"
+            "time": "2017-04-21T14:40:32+00:00"
         },
         {
             "name": "sebastian/exporter",

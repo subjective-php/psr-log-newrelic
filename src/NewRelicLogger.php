@@ -12,6 +12,9 @@ use SobanVuex\NewRelic\Agent;
  */
 final class NewRelicLogger extends AbstractLogger implements LoggerInterface
 {
+    use LevelValidatorTrait;
+    use MessageInterpolationTrait;
+
     /**
      * NewRelic Agent implementation.
      *
@@ -61,14 +64,12 @@ final class NewRelicLogger extends AbstractLogger implements LoggerInterface
      */
     public function log($level, $message, array $context = [])//@codingStandardsIgnoreLine Interface does not define type-hints or return
     {
-        LoggerHelper::validateLevel($level);
-
         if (!in_array($level, $this->observedLevels)) {
             return;
         }
 
+        $this->validateLevel($level);
         $this->newRelicAgent->addCustomParameter('level', $level);
-
         $exception = null;
         if (array_key_exists('exception', $context)) {
             $exception = $context['exception'];
@@ -83,6 +84,6 @@ final class NewRelicLogger extends AbstractLogger implements LoggerInterface
             $this->newRelicAgent->addCustomParameter($key, $value);
         }
 
-        $this->newRelicAgent->noticeError(LoggerHelper::interpolateMessage($message, $context), $exception);
+        $this->newRelicAgent->noticeError($this->interpolateMessage($message, $context), $exception);
     }
 }
