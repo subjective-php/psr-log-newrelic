@@ -13,6 +13,7 @@ use SobanVuex\NewRelic\Agent;
 final class NewRelicLogger extends AbstractLogger implements LoggerInterface
 {
     use LevelValidatorTrait;
+    use MessageValidatorTrait;
     use MessageInterpolationTrait;
 
     /**
@@ -69,6 +70,7 @@ final class NewRelicLogger extends AbstractLogger implements LoggerInterface
         }
 
         $this->validateLevel($level);
+        $this->validateMessage($message);
         $this->newRelicAgent->addCustomParameter('level', $level);
         $exception = null;
         if (array_key_exists('exception', $context)) {

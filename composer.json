@@ -6,7 +6,7 @@
         "php": "^7.0",
         "psr/log": "^1.0",
         "sobanvuex/php-newrelic": "^2.0",
-        "chadicus/psr-log-helper": "^1.1"
+        "chadicus/psr-log-helper": "^1.2"
     },
     "require-dev": {
         "chadicus/coding-standard": "^1.3",
