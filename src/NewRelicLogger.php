@@ -80,7 +80,7 @@ final class NewRelicLogger extends AbstractLogger implements LoggerInterface
 
         $this->addCustomParameters($context);
 
-        $this->newRelicAgent->noticeError($this->interpolateMessage($message, $context), $exception);
+        $this->newRelicAgent->noticeError((string)$this->interpolateMessage($message, $context), $exception);
     }
 
     private function addCustomParameters(array $context)
