@@ -71,15 +71,11 @@ final class NewRelicLogger extends AbstractLogger implements LoggerInterface
 
         $this->validateLevel($level);
         $this->validateMessage($message);
-        $this->newRelicAgent->addCustomParameter('level', $level);
-        $exception = null;
-        if (array_key_exists('exception', $context)) {
-            $exception = $context['exception'];
-            unset($context['exception']);
-        }
 
-        $this->addCustomParameters($context);
+        $exception = $context['exception'] ?? null;
+        unset($context['exception']);
 
+        $this->addCustomParameters(['level' => $level] + $context);
         $this->newRelicAgent->noticeError((string)$this->interpolateMessage($message, $context), $exception);
     }
 
