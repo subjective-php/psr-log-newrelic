@@ -62,7 +62,14 @@ final class NewRelicLoggerTest extends \PHPUnit\Framework\TestCase
      */
     public function logWithNonScalarContext()
     {
-        $newRelicAgentMock = $this->getNewRelicAgentMock(LogLevel::ERROR, 'an error message', ['foo' => 'bar']);
+        $newRelicAgentMock = $this->getNewRelicAgentMock(
+            LogLevel::ERROR,
+            'an error message',
+            [
+                'foo' => 'bar',
+                'extra' => var_export(new \StdClass(), true),
+            ]
+        );
         $logger = new NewRelicLogger($newRelicAgentMock);
         $logger->log(LogLevel::ERROR, 'an error message', ['foo' => 'bar', 'extra' => new \StdClass()]);
     }

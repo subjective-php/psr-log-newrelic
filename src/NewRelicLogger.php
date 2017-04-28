@@ -82,9 +82,11 @@ final class NewRelicLogger extends AbstractLogger implements LoggerInterface
     private function addCustomNewRelicParameters(array $context)
     {
         foreach ($context as $key => $value) {
-            if (is_scalar($value)) {
-                $this->newRelicAgent->addCustomParameter($key, $value);
+            if (!is_scalar($value)) {
+                $value = var_export($value, true);
             }
+
+            $this->newRelicAgent->addCustomParameter($key, $value);
         }
     }
 }
