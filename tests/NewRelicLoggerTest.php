@@ -74,6 +74,27 @@ final class NewRelicLoggerTest extends \PHPUnit\Framework\TestCase
         $logger->log(LogLevel::ERROR, 'an error message', ['foo' => 'bar', 'extra' => new \StdClass()]);
     }
 
+    /**
+     * @test
+     * @covers ::log
+     *
+     * @return void
+     */
+    public function logError()
+    {
+        $error = new \Error('an error message', E_ERROR);
+        $exception = new \ErrorException(
+            $error->getMessage(),
+            0,
+            $error->getCode(),
+            $error->getFile(),
+            $error->getLine()
+        );
+        $newRelicAgentMock = $this->getNewRelicAgentMock(LogLevel::ALERT, 'an error message', [], $exception);
+        $logger = new NewRelicLogger($newRelicAgentMock);
+        $logger->log(LogLevel::ALERT, 'an error message', ['exception' => $error]);
+    }
+
     private function getNewRelicAgentMock(
         string $level,
         string $message,
