@@ -12,7 +12,7 @@
         "php": "^7.0",
         "psr/log": "^1.0",
         "sobanvuex/php-newrelic": "^2.0",
-        "chadicus/psr-log-helper": "^1.2"
+        "subjective-php/psr-log-helper": "^3.0"
     },
     "require-dev": {
         "php-coveralls/php-coveralls": "^2.1",

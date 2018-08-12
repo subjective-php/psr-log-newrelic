@@ -6,12 +6,17 @@ use Psr\Log\AbstractLogger;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use SobanVuex\NewRelic\Agent;
+use SubjectivePHP\Psr\Log\ExceptionExtractorTrait;
+use SubjectivePHP\Psr\Log\LevelValidatorTrait;
+use SubjectivePHP\Psr\Log\MessageValidatorTrait;
+use SubjectivePHP\Psr\Log\MessageInterpolationTrait;
 
 /**
  * PSR-3 Implementation using NewRelic.
  */
 final class NewRelicLogger extends AbstractLogger implements LoggerInterface
 {
+    use ExceptionExtractorTrait;
     use LevelValidatorTrait;
     use MessageValidatorTrait;
     use MessageInterpolationTrait;
@@ -77,27 +82,6 @@ final class NewRelicLogger extends AbstractLogger implements LoggerInterface
 
         $this->addCustomNewRelicParameters(['level' => $level] + $context);
         $this->newRelicAgent->noticeError((string)$this->interpolateMessage($message, $context), $exception);
-    }
-
-    private function getExceptionFromContext(array $context)
-    {
-        $exception = $context['exception'] ?? null;
-
-        if ($exception instanceof \Exception) {
-            return $exception;
-        }
-
-        if ($exception instanceof \Error) {
-            return new \ErrorException(
-                $exception->getMessage(),
-                0,
-                $exception->getCode(),
-                $exception->getFile(),
-                $exception->getLine()
-            );
-        }
-
-        return null;
     }
 
     private function addCustomNewRelicParameters(array $context)
