@@ -38,9 +38,7 @@ final class NewRelicLogger extends AbstractLogger implements LoggerInterface
      */
     const DEFAULT_OBSERVED_LEVELS = [
         LogLevel::EMERGENCY,
-        LogLevel::ALERT,
         LogLevel::CRITICAL,
-        LogLevel::ERROR,
     ];
 
     /**
