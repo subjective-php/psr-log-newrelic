@@ -20,9 +20,9 @@ final class NewRelicLoggerTest extends \PHPUnit\Framework\TestCase
      */
     public function logWithOnlyMessage()
     {
-        $newRelicAgentMock = $this->getNewRelicAgentMock(LogLevel::ERROR, 'an error message', ['foo' => 'bar']);
+        $newRelicAgentMock = $this->getNewRelicAgentMock(LogLevel::CRITICAL, 'an error message', ['foo' => 'bar']);
         $logger = new NewRelicLogger($newRelicAgentMock);
-        $logger->log(LogLevel::ERROR, 'an error message', ['foo' => 'bar']);
+        $logger->log(LogLevel::CRITICAL, 'an error message', ['foo' => 'bar']);
     }
 
     /**
@@ -34,9 +34,9 @@ final class NewRelicLoggerTest extends \PHPUnit\Framework\TestCase
     public function logWithException()
     {
         $exception = new \RuntimeException();
-        $newRelicAgentMock = $this->getNewRelicAgentMock(LogLevel::ALERT, 'an alert message', [], $exception);
+        $newRelicAgentMock = $this->getNewRelicAgentMock(LogLevel::EMERGENCY, 'an alert message', [], $exception);
         $logger = new NewRelicLogger($newRelicAgentMock);
-        $logger->log(LogLevel::ALERT, 'an alert message', ['exception' => $exception]);
+        $logger->log(LogLevel::EMERGENCY, 'an alert message', ['exception' => $exception]);
     }
 
     /**
@@ -63,7 +63,7 @@ final class NewRelicLoggerTest extends \PHPUnit\Framework\TestCase
     public function logWithNonScalarContext()
     {
         $newRelicAgentMock = $this->getNewRelicAgentMock(
-            LogLevel::ERROR,
+            LogLevel::CRITICAL,
             'an error message',
             [
                 'foo' => 'bar',
@@ -71,7 +71,7 @@ final class NewRelicLoggerTest extends \PHPUnit\Framework\TestCase
             ]
         );
         $logger = new NewRelicLogger($newRelicAgentMock);
-        $logger->log(LogLevel::ERROR, 'an error message', ['foo' => 'bar', 'extra' => new \StdClass()]);
+        $logger->log(LogLevel::CRITICAL, 'an error message', ['foo' => 'bar', 'extra' => new \StdClass()]);
     }
 
     /**
@@ -90,9 +90,9 @@ final class NewRelicLoggerTest extends \PHPUnit\Framework\TestCase
             $error->getFile(),
             $error->getLine()
         );
-        $newRelicAgentMock = $this->getNewRelicAgentMock(LogLevel::ALERT, 'an error message', [], $exception);
+        $newRelicAgentMock = $this->getNewRelicAgentMock(LogLevel::EMERGENCY, 'an error message', [], $exception);
         $logger = new NewRelicLogger($newRelicAgentMock);
-        $logger->log(LogLevel::ALERT, 'an error message', ['exception' => $error]);
+        $logger->log(LogLevel::EMERGENCY, 'an error message', ['exception' => $error]);
     }
 
     private function getNewRelicAgentMock(
