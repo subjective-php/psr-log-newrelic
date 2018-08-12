@@ -1,5 +1,5 @@
 {
-    "name": "chadicus/psr-log-newrelic",
+    "name": "subjective-php/psr-log-newrelic",
     "description": "PSR-3 Log Implementation with NewRelic",
     "license": "MIT",
     "config": {
@@ -21,12 +21,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Chadicus\\Psr\\Log\\": "src"
+            "SubjectivePHP\\Psr\\Log\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "ChadicusTest\\Psr\\Log\\": "src"
+            "SubjectivePHPTest\\Psr\\Log\\": "src"
         }
     }
 }

@@ -1,15 +1,11 @@
 <?php
 
-namespace Chadicus\Psr\Log;
+namespace SubjectivePHP\Psr\Log;
 
 use Psr\Log\AbstractLogger;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use SobanVuex\NewRelic\Agent;
-use SubjectivePHP\Psr\Log\ExceptionExtractorTrait;
-use SubjectivePHP\Psr\Log\LevelValidatorTrait;
-use SubjectivePHP\Psr\Log\MessageValidatorTrait;
-use SubjectivePHP\Psr\Log\MessageInterpolationTrait;
 
 /**
  * PSR-3 Implementation using NewRelic.

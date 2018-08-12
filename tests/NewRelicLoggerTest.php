@@ -1,12 +1,12 @@
 <?php
 
-namespace ChadicusTest\Psr\Log;
+namespace SubjectivePHPTest\Psr\Log;
 
-use Chadicus\Psr\Log\NewRelicLogger;
+use SubjectivePHP\Psr\Log\NewRelicLogger;
 use Psr\Log\LogLevel;
 
 /**
- * @coversDefaultClass \Chadicus\Psr\Log\NewRelicLogger
+ * @coversDefaultClass \SubjectivePHP\Psr\Log\NewRelicLogger
  * @covers ::__construct
  * @covers ::<private>
  */
