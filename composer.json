@@ -2,6 +2,9 @@
     "name": "chadicus/psr-log-newrelic",
     "description": "PSR-3 Log Implementation with NewRelic",
     "license": "MIT",
+    "config": {
+        "sort-packages": true
+    },
     "require": {
         "php": "^7.0",
         "psr/log": "^1.0",
