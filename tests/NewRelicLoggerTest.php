@@ -20,9 +20,12 @@ final class NewRelicLoggerTest extends \PHPUnit\Framework\TestCase
      */
     public function logWithOnlyMessage()
     {
-        $newRelicAgentMock = $this->getNewRelicAgentMock(LogLevel::CRITICAL, 'an error message', ['foo' => 'bar']);
-        $logger = new NewRelicLogger($newRelicAgentMock);
-        $logger->log(LogLevel::CRITICAL, 'an error message', ['foo' => 'bar']);
+        $this->runNewRelicAgentMock(
+            LogLevel::CRITICAL,
+            'an error message',
+            ['foo' => 'bar'],
+            ['foo' => 'bar']
+        );
     }
 
     /**
@@ -34,9 +37,13 @@ final class NewRelicLoggerTest extends \PHPUnit\Framework\TestCase
     public function logWithException()
     {
         $exception = new \RuntimeException();
-        $newRelicAgentMock = $this->getNewRelicAgentMock(LogLevel::EMERGENCY, 'an alert message', [], $exception);
-        $logger = new NewRelicLogger($newRelicAgentMock);
-        $logger->log(LogLevel::EMERGENCY, 'an alert message', ['exception' => $exception]);
+        $this->runNewRelicAgentMock(
+            LogLevel::EMERGENCY,
+            'an alert message',
+            [],
+            ['exception' => $exception],
+            $exception
+        );
     }
 
     /**
@@ -62,16 +69,15 @@ final class NewRelicLoggerTest extends \PHPUnit\Framework\TestCase
      */
     public function logWithNonScalarContext()
     {
-        $newRelicAgentMock = $this->getNewRelicAgentMock(
+        $this->runNewRelicAgentMock(
             LogLevel::CRITICAL,
             'an error message',
             [
                 'foo' => 'bar',
                 'extra' => var_export(new \StdClass(), true),
-            ]
+            ],
+            ['foo' => 'bar', 'extra' => new \StdClass()]
         );
-        $logger = new NewRelicLogger($newRelicAgentMock);
-        $logger->log(LogLevel::CRITICAL, 'an error message', ['foo' => 'bar', 'extra' => new \StdClass()]);
     }
 
     /**
@@ -90,29 +96,49 @@ final class NewRelicLoggerTest extends \PHPUnit\Framework\TestCase
             $error->getFile(),
             $error->getLine()
         );
-        $newRelicAgentMock = $this->getNewRelicAgentMock(LogLevel::EMERGENCY, 'an error message', [], $exception);
-        $logger = new NewRelicLogger($newRelicAgentMock);
-        $logger->log(LogLevel::EMERGENCY, 'an error message', ['exception' => $error]);
+        $this->runNewRelicAgentMock(
+            LogLevel::EMERGENCY,
+            'an error message',
+            [],
+            ['exception' => $error],
+            $exception
+        );
     }
 
-    private function getNewRelicAgentMock(
+    private function runNewRelicAgentMock(
         string $level,
         string $message,
         array $parameters,
+        array $callParams,
         \Exception $exception = null
     ) {
-        $newRelicAgentMock = $this->getMockBuilder('\\SobanVuex\\NewRelic\\Agent')->setMethods(
-            ['addCustomParameter', 'noticeError']
-        )->getMock();
+        $builder = $this->getMockBuilder('\\SobanVuex\\NewRelic\\Agent');
+        list($majorVersion) = explode('.', \PhpUnit\Runner\Version::id());
+        if ($majorVersion < 9) {
+            $builder->setMethods(['addCustomParameter', 'noticeError']);
+        } else {
+            $builder->onlyMethods(['addCustomParameter', 'noticeError']);
+        }
+
+        $newRelicAgentMock = $builder->getMock();
         $consecutiveKeyValues = [['level', $level]];
         foreach ($parameters as $key => $value) {
             $consecutiveKeyValues[] = [$key, $value];
         }
 
-        $newRelicAgentMock->expects($this->exactly(count($consecutiveKeyValues)))->method(
+        $incrementCalls = new \ArrayObject();
+        $newRelicAgentMock->expects(
+            $this->exactly(count($consecutiveKeyValues))
+        )->method(
             'addCustomParameter'
-        )->withConsecutive(...$consecutiveKeyValues);
+        )->willReturnCallback(
+            function ($key, $value) use ($incrementCalls) {
+                $incrementCalls[] = [$key, $value];
+            }
+        );
         $newRelicAgentMock->expects($this->once())->method('noticeError')->with($message, $exception);
-        return $newRelicAgentMock;
+        $logger = new NewRelicLogger($newRelicAgentMock);
+        $logger->log($level, $message, $callParams);
+        $this->assertSame($consecutiveKeyValues, $incrementCalls->getArrayCopy());
     }
 }
